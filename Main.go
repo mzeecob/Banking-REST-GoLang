@@ -6,7 +6,15 @@ import (
 )
 
 func handlerFunc(w http.ResponseWriter, r *http.Request)  {
-	fmt.Fprint(w, "<h1> bimeze gte its ur boy <h1>")
+	w.Header().Set("Content-Type", "text/html")
+
+	if r.URL.Path == "/" {
+		fmt.Fprint(w, "<h1> bimeze gte its ur boy mzee <h1>")
+	} else if r.URL.Path == "/contact" {
+		fmt.Fprint(w, "please send email to get in touch <a href=\"mzeecob@gmail.com\"> mzeecob@gmail.com</a>")
+
+	}
+
 }
 
 func main() {
