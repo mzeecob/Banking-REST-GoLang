@@ -2,8 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
+	"encoding/xml"
 	"fmt"
+	"net/http"
 )
 
 type Customer struct{
@@ -27,14 +28,24 @@ func handlerFunc(w http.ResponseWriter, r *http.Request)  {
 }
 
 func getAllCustomer(w http.ResponseWriter, r *http.Request)  {
-	w.Header().Set("Content-Type", "application/json")
 
-	customers := []Customer {
-		{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
-		{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
+	if r.Header.Get("content-type") == "application/xml" {
+		w.Header().Set("Content-Type", "application/xml")
+		customers := []Customer {
+			{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
+			{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
+		}
+		xml.NewEncoder(w).Encode(customers)
+
+	} else {
+		w.Header().Set("Content-Type", "application/json")
+		customers := []Customer {
+			{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
+			{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
+		}
+
+		json.NewEncoder(w).Encode(customers)
 	}
-
-	json.NewEncoder(w).Encode(customers)
 
 }
 
