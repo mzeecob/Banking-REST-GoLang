@@ -1,3 +1,2 @@
-# Go Web Application
-
-an photo gallery web application written in Go
+## REST based microservices API development in Go lang
+Banking App with main microservices like user registration and login 
