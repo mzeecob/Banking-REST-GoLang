@@ -1,9 +1,16 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"fmt"
 )
+
+type Customer struct{
+	Name string
+	City string
+	Zipcode string
+}
 
 func handlerFunc(w http.ResponseWriter, r *http.Request)  {
 	w.Header().Set("Content-Type", "text/html")
@@ -19,7 +26,20 @@ func handlerFunc(w http.ResponseWriter, r *http.Request)  {
 
 }
 
+func getAllCustomer(w http.ResponseWriter, r *http.Request)  {
+	w.Header().Set("Content-Type", "application/json")
+
+	customers := []Customer {
+		{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
+		{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
+	}
+
+	json.NewEncoder(w).Encode(customers)
+
+}
+
 func main() {
 	http.HandleFunc("/", handlerFunc)
+	http.HandleFunc("/customers", getAllCustomer)
 	http.ListenAndServe(":3000", nil)
 }
