@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"banking/service"
 	"net/http"
 )
 
@@ -27,23 +28,25 @@ func handlerFunc(w http.ResponseWriter, r *http.Request)  {
 
 }
 
-func getAllCustomer(w http.ResponseWriter, r *http.Request)  {
+type CustomerHandlers struct {
+	service service.CustomerService
+}
+
+func (ch *CustomerHandlers) getAllCustomer(w http.ResponseWriter, r *http.Request)  {
+
+	//customers := []Customer{
+	//	{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
+	//	{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
+	//}
+
+	customers, _ := ch.service.GetAllCustomers()
 
 	if r.Header.Get("content-type") == "application/xml" {
 		w.Header().Set("Content-Type", "application/xml")
-		customers := []Customer{
-			{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
-			{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
-		}
 		xml.NewEncoder(w).Encode(customers)
 
 	} else {
 		w.Header().Set("Content-Type", "application/json")
-		customers := []Customer{
-			{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
-			{ Name: "Regis", City: "Kigali", Zipcode: "045415" },
-		}
-
 		json.NewEncoder(w).Encode(customers)
 	}
 
